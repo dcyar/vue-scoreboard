@@ -107,9 +107,8 @@
         </div>
       </div>
       <div class="flex gap-x-2 justify-center mt-4">
-        <button class="py-2 px-4 bg-green-500 text-white rounded-xl uppercase text-sm">actualizar</button>
         <button @click="startCountdown" class="py-2 px-4 bg-indigo-900 text-white rounded-xl uppercase text-sm">iniciar</button>
-        <button @click="stopCountdown" class="py-2 px-4 bg-amber-900 text-white rounded-xl uppercase text-sm">reiniciar</button>
+        <button @click="stopCountdown" class="py-2 px-4 bg-amber-900 text-white rounded-xl uppercase text-sm">reiniciar tiempo</button>
       </div>
     </div>
   </main>
