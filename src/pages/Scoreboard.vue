@@ -22,7 +22,7 @@
   });
 
   onMounted(() => {
-    onSnapshot(doc(db, 'score', 'K3bBc8Tg6kwcsmqFI4W8'), (doc) => {
+    onSnapshot(doc(db, 'score', import.meta.env.VITE_FIREBASE_DOC_ID), (doc) => {
       const data = doc.data();
 
       sb.score.team1.name = data.team_one;

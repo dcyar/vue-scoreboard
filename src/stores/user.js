@@ -11,15 +11,6 @@ export const useUserStore = defineStore({
         isLoggedIn: (state) => state.loggedIn,
     },
     actions: {
-        async register(username, password) {
-            createUserWithEmailAndPassword(getAuth(), username, password)
-                .then(() => {
-                    this.loggedIn = true;
-                })
-                .catch((error) => {
-                    throw error;
-                });
-        },
         login(username, password) {
             signInWithEmailAndPassword(getAuth(), username, password)
                 .then(() => {

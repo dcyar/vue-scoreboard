@@ -1,7 +1,8 @@
 <script setup>
-  import { doc, onSnapshot } from 'firebase/firestore';
+  import { doc, onSnapshot, setDoc } from 'firebase/firestore';
   import { onMounted, reactive, ref, watch } from 'vue';
   import { db } from '../firebase';
+  import { debounce } from '../helpers';
 
   const interval = ref(null);
   const sb = reactive({
@@ -23,7 +24,7 @@
   });
 
   onMounted(() => {
-    onSnapshot(doc(db, 'score', 'K3bBc8Tg6kwcsmqFI4W8'), (doc) => {
+    onSnapshot(getDoc(), (doc) => {
       const data = doc.data();
 
       sb.score.team1.name = data.team_one;
@@ -36,9 +37,27 @@
     });
   });
 
-  watch(sb, () => {
-    console.log('cambio');
-  });
+  watch(() => sb.set, debounce((val) => {
+    setDoc(getDoc(), {sets: val}, { merge: true });
+  }, 1000), { deep: true })
+
+  watch(() => sb.score.team1.name, debounce((val) => {
+    setDoc(getDoc(), {team_one: val}, { merge: true });
+  }, 1000), { deep: true })
+
+  watch(() => sb.score.team1.score, debounce((val) => {
+    setDoc(getDoc(), {score_one: val}, { merge: true });
+  }), { deep: true })
+
+  watch(() => sb.score.team2.name, debounce((val) => {
+    setDoc(getDoc(), {team_two: val}, { merge: true });
+  }, 1000), { deep: true })
+
+  watch(() => sb.score.team2.score, debounce((val) => {
+    setDoc(getDoc(), {score_two: val}, { merge: true });
+  }), { deep: true })
+
+  const getDoc = () => doc(db, 'score', import.meta.env.VITE_FIREBASE_DOC_ID);
 
   const startCountdown = () => {
     interval.value = setInterval(() => {
@@ -48,6 +67,8 @@
         sb.timer.minutes++;
         sb.timer.seconds = 0;
       }
+
+      setDoc(getDoc(), {minutes: sb.timer.minutes, seconds: sb.timer.seconds}, { merge: true });
     }, 1000);
   };
 
@@ -55,10 +76,12 @@
     clearInterval(interval.value);
     sb.timer.minutes = 0;
     sb.timer.seconds = 0;
+
+    setDoc(getDoc(), {minutes: sb.timer.minutes, seconds: sb.timer.seconds}, { merge: true });
   };
 </script>
 <template>
-  <main class="container mx-auto mt-12 text-center">
+  <main class="container w-1/2 mx-auto mt-12 text-center">
     <div>
       <h2 class="text-3xl font-bold mb-4">Controls</h2>
       <div class="space-y-4">
@@ -84,8 +107,9 @@
         </div>
       </div>
       <div class="flex gap-x-2 justify-center mt-4">
+        <button class="py-2 px-4 bg-green-500 text-white rounded-xl uppercase text-sm">actualizar</button>
         <button @click="startCountdown" class="py-2 px-4 bg-indigo-900 text-white rounded-xl uppercase text-sm">iniciar</button>
-        <button @click="stopCountdown" class="py-2 px-4 bg-indigo-900 text-white rounded-xl uppercase text-sm">reiniciar</button>
+        <button @click="stopCountdown" class="py-2 px-4 bg-amber-900 text-white rounded-xl uppercase text-sm">reiniciar</button>
       </div>
     </div>
   </main>

@@ -6,8 +6,8 @@
   const store = useUserStore();
   const router = useRouter();
 
-  const email = ref('homero@mail.com');
-  const password = ref('password');
+  const email = ref('');
+  const password = ref('');
 
   const handleLogin = () => {
     store.login(email.value, password.value);
