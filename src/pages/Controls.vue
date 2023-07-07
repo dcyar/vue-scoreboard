@@ -39,11 +39,11 @@
 
   watch(() => sb.set, debounce((val) => {
     setDoc(getDoc(), {sets: val}, { merge: true });
-  }, 1000), { deep: true })
+  }), { deep: true })
 
   watch(() => sb.score.team1.name, debounce((val) => {
     setDoc(getDoc(), {team_one: val}, { merge: true });
-  }, 1000), { deep: true })
+  }), { deep: true })
 
   watch(() => sb.score.team1.score, debounce((val) => {
     setDoc(getDoc(), {score_one: val}, { merge: true });
@@ -51,34 +51,13 @@
 
   watch(() => sb.score.team2.name, debounce((val) => {
     setDoc(getDoc(), {team_two: val}, { merge: true });
-  }, 1000), { deep: true })
+  }), { deep: true })
 
   watch(() => sb.score.team2.score, debounce((val) => {
     setDoc(getDoc(), {score_two: val}, { merge: true });
   }), { deep: true })
 
   const getDoc = () => doc(db, 'score', import.meta.env.VITE_FIREBASE_DOC_ID);
-
-  const startCountdown = () => {
-    interval.value = setInterval(() => {
-      if (sb.timer.seconds < 59) {
-        sb.timer.seconds++;
-      } else {
-        sb.timer.minutes++;
-        sb.timer.seconds = 0;
-      }
-
-      setDoc(getDoc(), {minutes: sb.timer.minutes, seconds: sb.timer.seconds}, { merge: true });
-    }, 1000);
-  };
-
-  const stopCountdown = () => {
-    clearInterval(interval.value);
-    sb.timer.minutes = 0;
-    sb.timer.seconds = 0;
-
-    setDoc(getDoc(), {minutes: sb.timer.minutes, seconds: sb.timer.seconds}, { merge: true });
-  };
 </script>
 <template>
   <main class="container w-1/2 mx-auto mt-12 text-center">
@@ -105,10 +84,6 @@
           <label for="team2s" class="font-bold uppercase text-sm">Goles 2</label>
           <input type="number" v-model="sb.score.team2.score" id="team2s" class="p-1 border border-slate-400 rounded-md outline-none" />
         </div>
-      </div>
-      <div class="flex gap-x-2 justify-center mt-4">
-        <button @click="startCountdown" class="py-2 px-4 bg-indigo-900 text-white rounded-xl uppercase text-sm">iniciar</button>
-        <button @click="stopCountdown" class="py-2 px-4 bg-amber-900 text-white rounded-xl uppercase text-sm">reiniciar tiempo</button>
       </div>
     </div>
   </main>

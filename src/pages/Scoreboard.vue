@@ -15,10 +15,6 @@
         score: 0,
       },
     },
-    timer: {
-      minutes: 0,
-      seconds: 0,
-    },
   });
 
   onMounted(() => {
@@ -30,21 +26,7 @@
       sb.score.team2.name = data.team_two;
       sb.score.team2.score = data.score_two;
       sb.tiempo = data.sets;
-      sb.timer.minutes = data.minutes;
-      sb.timer.seconds = data.seconds;
     });
-  });
-
-  const timerFormat = computed(() => {
-    if (sb.timer.minutes < 10 && sb.timer.seconds < 10) {
-      return `0${sb.timer.minutes}:0${sb.timer.seconds}`;
-    } else if (sb.timer.minutes < 10) {
-      return `0${sb.timer.minutes}:${sb.timer.seconds}`;
-    } else if (sb.timer.seconds < 10) {
-      return `${sb.timer.minutes}:0${sb.timer.seconds}`;
-    } else if (sb.timer.minutes > 10 && sb.timer.seconds > 10) {
-      return `${sb.timer.minutes}:${sb.timer.seconds}`;
-    }
   });
 </script>
 <template>
@@ -70,9 +52,6 @@
             <span class="uppercase font-bold">{{ sb.score.team2.name }}</span>
           </div>
         </div>
-      </section>
-      <section class="w-28 bg-slate-700 px-4 py-1 rounded-full">
-        <span class="text-2xl">{{ timerFormat }}</span>
       </section>
     </div>
   </main>
