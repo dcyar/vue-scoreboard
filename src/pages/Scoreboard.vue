@@ -1,7 +1,7 @@
 <script setup>
   import { doc, onSnapshot } from 'firebase/firestore';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
-import { db } from '../firebase';
+  import { computed, onMounted, reactive, ref, watch } from 'vue';
+  import { db } from '../firebase';
 
   const interval = ref(null);
   const sb = reactive({
@@ -76,28 +76,28 @@ import { db } from '../firebase';
 <template>
   <main class="container mx-auto text-center">
     <div class="text-white mt-4 flex flex-col items-center gap-y-3">
-      <section class="bg-slate-700 px-4 py-1 rounded-full">
+      <section class="bg-gradient-to-t from-indigo-700 to-indigo-400 px-4 py-1 rounded-full">
         <span class="font-bold uppercase">{{ sb.set }}</span>
       </section>
       <section class="flex items-center gap-x-4">
         <div class="flex items-center">
-          <div class="bg-slate-700 px-8 py-3 rounded-s-full">
+          <div class="bg-gradient-to-t from-indigo-700 to-indigo-400 px-8 py-3 rounded-s-full">
             <span class="uppercase font-bold">{{ sb.score.team1.name }}</span>
           </div>
-          <div class="bg-slate-700 px-6 py-4">
+          <div class="bg-gradient-to-t from-indigo-700 to-indigo-400 px-6 py-4">
             <span class="text-4xl font-bold">{{ sb.score.team1.score }}</span>
           </div>
         </div>
         <div class="flex items-center">
-          <div class="bg-slate-700 px-6 py-4">
+          <div class="bg-gradient-to-t from-indigo-700 to-indigo-400 px-6 py-4">
             <span class="text-4xl font-bold">{{ sb.score.team2.score }}</span>
           </div>
-          <div class="bg-slate-700 px-8 py-3 rounded-e-full">
+          <div class="bg-gradient-to-t from-indigo-700 to-indigo-400 px-8 py-3 rounded-e-full">
             <span class="uppercase font-bold">{{ sb.score.team2.name }}</span>
           </div>
         </div>
       </section>
-      <section class="w-28 bg-slate-700 px-4 py-1 rounded-full">
+      <section class="w-28 bg-gradient-to-t from-indigo-700 to-indigo-400 px-4 py-1 rounded-full">
         <span class="text-2xl">{{ timerFormat }}</span>
       </section>
     </div>
