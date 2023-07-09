@@ -1,10 +1,9 @@
 <script setup>
   import { doc, onSnapshot, setDoc } from 'firebase/firestore';
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { onMounted, reactive, watch } from 'vue';
   import { db } from '../firebase';
   import { debounce } from '../helpers';
 
-  const interval = ref(null);
   const sb = reactive({
     set: '',
     score: {
@@ -58,6 +57,14 @@
   }), { deep: true })
 
   const getDoc = () => doc(db, 'score', import.meta.env.VITE_FIREBASE_DOC_ID);
+
+  const startCountdown = () => {
+    setDoc(getDoc(), {timer: true}, { merge: true });
+  }
+
+  const stopCountdown = () => {
+    setDoc(getDoc(), {timer: false}, { merge: true });
+  }
 </script>
 <template>
   <main class="container w-1/2 mx-auto mt-12 text-center">
@@ -85,6 +92,10 @@
           <input type="number" v-model="sb.score.team2.score" id="team2s" class="p-1 border border-slate-400 rounded-md outline-none" />
         </div>
       </div>
+    </div>
+    <div class="w-56 mx-auto mt-4 space-y-2">
+      <button @click="startCountdown" class="w-full px-3 py-1 bg-indigo-600 font-bold uppercase rounded-md text-white">Iniciar tiempo</button>
+      <button @click="stopCountdown" class="w-full px-3 py-1 bg-amber-600 font-bold uppercase rounded-md text-white">Detener tiempo</button>
     </div>
   </main>
 </template>
